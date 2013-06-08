@@ -17,4 +17,8 @@ public class AgencyPercentPK {
 	@Column(name = "LOTNO", length = 50)
 	private String lotno;
 
+	/** 0:普通代购，1:合买发起人,2:合买参与人 */
+	@Column(name = "TYPE")
+	private Integer type;
+
 }

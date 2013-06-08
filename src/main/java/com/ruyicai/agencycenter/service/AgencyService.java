@@ -85,16 +85,19 @@ public class AgencyService {
 		result = AgencyPercent.findAgencyPercentsByUserno(userno);
 		Map<String, String> map = Lottype.getMap();
 		Boolean flag = true;
-		for (String lotno : map.keySet()) {
-			flag = true;
-			for (AgencyPercent agencyPercent : result) {
-				if (agencyPercent.getId().getLotno().equals(lotno)) {
-					flag = false;
-					continue;
+		Integer[] typeArray = new Integer[] { 0, 1, 2 };
+		for (Integer type : typeArray) {
+			for (String lotno : map.keySet()) {
+				flag = true;
+				for (AgencyPercent agencyPercent : result) {
+					if (agencyPercent.getId().getLotno().equals(lotno) && agencyPercent.getId().getType() == type) {
+						flag = false;
+						continue;
+					}
 				}
-			}
-			if (flag) {
-				result.add(AgencyPercent.findOrCreateAgencyPercent(userno, lotno));
+				if (flag) {
+					result.add(AgencyPercent.findOrCreateAgencyPercent(userno, lotno, type));
+				}
 			}
 		}
 		return result;
@@ -114,7 +117,8 @@ public class AgencyService {
 	 * @param buyAmt
 	 *            购买金额
 	 */
-	public void doAgencyPrize(String userno, String businessId, Integer businessType, String lotno, BigDecimal buyAmt) {
+	public void doAgencyPrize(String userno, String businessId, Integer businessType, String lotno, BigDecimal buyAmt,
+			Integer type) {
 		UserAgency userAgency = UserAgency.findUserAgency(userno);
 		if (userAgency != null) {
 			if (!Tjmsservice.createTjmsservice(userno + businessId, businessType)) {
@@ -124,13 +128,14 @@ public class AgencyService {
 			}
 			// 记录代理用户购彩明细
 			try {
-				AgencyPercent agencyPercent = AgencyPercent.findOrCreateAgencyPercent(userAgency.getUserno(), lotno);
+				AgencyPercent agencyPercent = AgencyPercent.findOrCreateAgencyPercent(userAgency.getUserno(), lotno,
+						type);
 				AgencyBuyDetail.createAgencyBuyDetail(userno, businessId, businessType, lotno, buyAmt,
 						agencyPercent.getPercent());
 			} catch (Exception e) {
 				logger.error("创建代理购彩记录异常", e);
 			}
-			while (doSendAgencyPrize(userAgency, null, businessId, businessType, lotno, buyAmt) == false) {
+			while (doSendAgencyPrize(userAgency, null, businessId, businessType, lotno, buyAmt, type) == false) {
 				break;
 			}
 		}
@@ -155,7 +160,7 @@ public class AgencyService {
 	 */
 	@Transactional
 	public Boolean doSendAgencyPrize(UserAgency userAgency, UserAgency childUserAgency, String businessId,
-			Integer businessType, String lotno, BigDecimal totalAmt) {
+			Integer businessType, String lotno, BigDecimal totalAmt, Integer type) {
 		Boolean flag = false;
 		if (userAgency == null) {
 			logger.info("代理账号为空，跳出");
@@ -163,11 +168,11 @@ public class AgencyService {
 		}
 		String userno = userAgency.getUserno();
 		String childUserno = childUserAgency == null ? null : childUserAgency.getUserno();
-		AgencyPercent agencyPercent = AgencyPercent.findOrCreateAgencyPercent(userAgency.getUserno(), lotno);
+		AgencyPercent agencyPercent = AgencyPercent.findOrCreateAgencyPercent(userAgency.getUserno(), lotno, type);
 		BigDecimal percent = agencyPercent.getPercent();
 		if (childUserAgency != null) {
 			AgencyPercent childAgencyPercent = AgencyPercent.findOrCreateAgencyPercent(childUserAgency.getUserno(),
-					lotno);
+					lotno, type);
 			if (childAgencyPercent != null && childAgencyPercent.getPercent() != null
 					&& childAgencyPercent.getPercent().compareTo(BigDecimal.ZERO) > 0) {
 				percent = percent.subtract(childAgencyPercent.getPercent());
@@ -188,7 +193,7 @@ public class AgencyService {
 		if (StringUtils.isNotBlank(parentUserno)) {
 			logger.info("计算上级代理用户用户奖金parentUserno:{}", new String[] { parentUserno });
 			UserAgency parentUserAgency = UserAgency.findUserAgency(parentUserno);
-			doSendAgencyPrize(parentUserAgency, userAgency, businessId, businessType, lotno, totalAmt);
+			doSendAgencyPrize(parentUserAgency, userAgency, businessId, businessType, lotno, totalAmt, type);
 			flag = true;
 		}
 		return flag;
@@ -207,7 +212,8 @@ public class AgencyService {
 		sendAgencyPrizeProducer.sendBodyAndHeaders(null, headers);
 	}
 
-	public AgencyPercent modifyAgencyPercent(String userno, String parentUserno, String lotno, BigDecimal percent) {
+	public AgencyPercent modifyAgencyPercent(String userno, String parentUserno, String lotno, BigDecimal percent,
+			Integer type) {
 		logger.info("修改用户代理比例userno:{},parentUserno:{},lotno:{},percent:{}", new String[] { userno, parentUserno,
 				lotno, percent + "" });
 		UserAgency agency = UserAgency.findUserAgency(userno);
@@ -221,8 +227,8 @@ public class AgencyService {
 			if (!agency.getParentUserno().equals(parentUserno)) {
 				throw new RuyicaiException(ErrorCode.AGENCYCENTER_MODIFY_PERCENT_NOT_PARENT);
 			}
-			AgencyPercent parentAgencyPercent = AgencyPercent
-					.findAgencyPercent(new AgencyPercentPK(parentUserno, lotno));
+			AgencyPercent parentAgencyPercent = AgencyPercent.findAgencyPercent(new AgencyPercentPK(parentUserno,
+					lotno, type));
 			if (parentAgencyPercent == null) {
 				throw new RuyicaiException(ErrorCode.AGENCYCENTER_DATA_NOTEXISTS);
 			}
@@ -230,7 +236,7 @@ public class AgencyService {
 				throw new RuyicaiException(ErrorCode.AGENCYCENTER_CHILD_NOT_BIGGER_PARENT);
 			}
 		}
-		AgencyPercent agencyPercent = AgencyPercent.findAgencyPercent(new AgencyPercentPK(userno, lotno));
+		AgencyPercent agencyPercent = AgencyPercent.findAgencyPercent(new AgencyPercentPK(userno, lotno, type));
 		if (agencyPercent == null) {
 			throw new RuyicaiException(ErrorCode.ERROR);
 		}
@@ -241,7 +247,7 @@ public class AgencyService {
 		return agencyPercent;
 	}
 
-	public AgencyPercent modifyAgencyPrecentNotValidate(String userno, String lotno, BigDecimal percent) {
+	public AgencyPercent modifyAgencyPrecentNotValidate(String userno, String lotno, BigDecimal percent, Integer type) {
 		logger.info("修改用户代理比例userno:{},lotno:{},percent:{}", new String[] { userno, lotno, percent + "" });
 		UserAgency agency = UserAgency.findUserAgency(userno);
 		if (agency == null) {
@@ -249,8 +255,8 @@ public class AgencyService {
 		}
 		if (StringUtils.isNotBlank(agency.getParentUserno())) {
 			String parentUserno = agency.getParentUserno();
-			AgencyPercent parentAgencyPercent = AgencyPercent
-					.findAgencyPercent(new AgencyPercentPK(parentUserno, lotno));
+			AgencyPercent parentAgencyPercent = AgencyPercent.findAgencyPercent(new AgencyPercentPK(parentUserno,
+					lotno, type));
 			if (parentAgencyPercent == null) {
 				throw new RuyicaiException(ErrorCode.AGENCYCENTER_DATA_NOTEXISTS);
 			}
@@ -258,7 +264,7 @@ public class AgencyService {
 				throw new RuyicaiException(ErrorCode.AGENCYCENTER_CHILD_NOT_BIGGER_PARENT);
 			}
 		}
-		AgencyPercent agencyPercent = AgencyPercent.findAgencyPercent(new AgencyPercentPK(userno, lotno));
+		AgencyPercent agencyPercent = AgencyPercent.findAgencyPercent(new AgencyPercentPK(userno, lotno, type));
 		if (agencyPercent == null) {
 			throw new RuyicaiException(ErrorCode.ERROR);
 		}

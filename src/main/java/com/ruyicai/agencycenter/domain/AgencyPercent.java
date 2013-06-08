@@ -39,14 +39,17 @@ public class AgencyPercent {
 	 *            彩种编号
 	 * @return AgencyPercent
 	 */
-	public static AgencyPercent findOrCreateAgencyPercent(String userno, String lotno) {
+	public static AgencyPercent findOrCreateAgencyPercent(String userno, String lotno, Integer type) {
 		if (StringUtils.isBlank(userno)) {
 			throw new IllegalArgumentException("the arguments userno is require");
 		}
 		if (StringUtils.isBlank(lotno)) {
 			throw new IllegalArgumentException("the arguments lotno is require");
 		}
-		AgencyPercentPK id = new AgencyPercentPK(userno, lotno);
+		if (type == null) {
+			throw new IllegalArgumentException("the arguments type is require");
+		}
+		AgencyPercentPK id = new AgencyPercentPK(userno, lotno, type);
 		AgencyPercent agencyPercent = findAgencyPercent(id);
 		if (agencyPercent == null) {
 			agencyPercent = new AgencyPercent();

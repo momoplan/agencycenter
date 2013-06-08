@@ -26,10 +26,6 @@ public class RoutesConfiguration {
 				deadLetterChannel("jms:queue:dead").maximumRedeliveries(-1).redeliveryDelay(3000);
 				from("jms:queue:VirtualTopicConsumers.agencycenter.sendAgencyPrize").to(
 						"bean:sendAgencyPrizeListener?method=sendAgencyPrizeCustomer").routeId("发放代理奖金");
-				/*from("jms:queue:VirtualTopicConsumers.agencycenter.orderAfterBetTopic?concurrentConsumers=20").to(
-						"bean:orderAfterBetListener?method=orderAfterBetCustomer").routeId("订单投注成功代理奖金");
-				from("jms:queue:VirtualTopicConsumers.agencycenter.caselotFinish?concurrentConsumers=10").to(
-						"bean:caselotFinishListener?method=caselotFinishCustomer").routeId("合买期截代理奖金");*/
 				from("jms:queue:VirtualTopicConsumers.agencycenter.actioncenter?concurrentConsumers=20").to(
 						"bean:fundJmsListener?method=fundJmsCustomer").routeId("代理购彩");
 			}

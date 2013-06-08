@@ -3,6 +3,7 @@
 
 package com.ruyicai.agencycenter.domain;
 
+import java.lang.Integer;
 import java.lang.Object;
 import java.lang.String;
 import javax.persistence.Embeddable;
@@ -11,10 +12,11 @@ privileged aspect AgencyPercentPK_Roo_Identifier {
     
     declare @type: AgencyPercentPK: @Embeddable;
     
-    public AgencyPercentPK.new(String userno, String lotno) {
+    public AgencyPercentPK.new(String userno, String lotno, Integer type) {
         super();
         this.userno = userno;
         this.lotno = lotno;
+        this.type = type;
     }
 
     private AgencyPercentPK.new() {
@@ -29,6 +31,10 @@ privileged aspect AgencyPercentPK_Roo_Identifier {
         return this.lotno;
     }
     
+    public Integer AgencyPercentPK.getType() {
+        return this.type;
+    }
+    
     public boolean AgencyPercentPK.equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
@@ -40,6 +46,9 @@ privileged aspect AgencyPercentPK_Roo_Identifier {
         if (lotno == null) {
             if (other.lotno != null) return false;
         } else if (!lotno.equals(other.lotno)) return false;
+        if (type == null) {
+            if (other.type != null) return false;
+        } else if (!type.equals(other.type)) return false;
         return true;
     }
     
@@ -48,6 +57,7 @@ privileged aspect AgencyPercentPK_Roo_Identifier {
         int result = 17;
         result = prime * result + (userno == null ? 0 : userno.hashCode());
         result = prime * result + (lotno == null ? 0 : lotno.hashCode());
+        result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
     }
     

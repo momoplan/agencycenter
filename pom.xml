@@ -18,14 +18,14 @@
 		<repository>
 			<id>ruyicai</id>
 			<name>Ruyicai Repository</name>
-			<url>http://202.43.152.162:8181/nexus/content/repositories/public/</url>
+			<url>http://202.43.152.168/nexus/content/repositories/public/</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>ruyicai</id>
 			<name>Ruyicai Repository</name>
-			<url>http://202.43.152.162:8181/nexus/content/repositories/public/</url>
+			<url>http://202.43.152.168/nexus/content/repositories/public/</url>
 		</pluginRepository>
 	</pluginRepositories>
 	<dependencies>
@@ -635,7 +635,7 @@
 				<configuration>
 					<url>${tomcat.manager.url}</url>
 					<username>tomcat</username>
-					<password>tomcat</password>
+					<password>ruyicaitest</password>
 					<path>/agencycenter</path>
 					<port>${tomcat.manager.port}</port>
 					<update>true</update>

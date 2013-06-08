@@ -11,6 +11,7 @@ public class Lottype {
 		map.put("F47102", "七乐彩");
 		map.put("F47103", "3D");
 		map.put("F47104", "双色球");
+		map.put("F47107", "内蒙快三");
 		map.put("T01001", "超级大乐透");
 		map.put("T01002", "排列三");
 		map.put("T01003", "胜负彩");
@@ -26,6 +27,7 @@ public class Lottype {
 		map.put("T01013", "22选五");
 		map.put("T01014", "广东十一选五");
 		map.put("T01015", "广东快乐十分");
+		map.put("T01016", "重庆11选5");
 		map.put("J00001", "竞彩足球胜负平");
 		map.put("J00002", "竞彩足球比分");
 		map.put("J00003", "竞彩足球总进球");
@@ -36,6 +38,9 @@ public class Lottype {
 		map.put("J00008", "竞彩篮球大小分");
 		map.put("J00009", "竞彩冠军");
 		map.put("J000010","竞彩冠亚军");
+		map.put("J00011","竞彩足球混合");
+		map.put("J00012","竞彩篮球混合");
+		map.put("J00013", "竞彩足球让球胜平负");
 	}
 
 	public static Map<String, String> getMap() {
