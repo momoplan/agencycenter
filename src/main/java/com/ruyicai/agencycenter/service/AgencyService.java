@@ -57,15 +57,21 @@ public class AgencyService {
 		if (tuserinfo == null) {
 			throw new RuyicaiException(ErrorCode.UserMod_UserNotExists);
 		}
+		Tuserinfo parenttuserinfo = null;
 		UserAgency parentUserAgency = null;
 		if (StringUtils.isNotBlank(parentUserno)) {
+			parenttuserinfo = lotteryService.findTuserinfoByUserno(parentUserno);
+			if (parenttuserinfo == null) {
+				throw new RuyicaiException(ErrorCode.UserMod_UserNotExists);
+			}
 			parentUserAgency = UserAgency.findUserAgency(parentUserno);
 			if (parentUserAgency == null) {
 				throw new RuyicaiException(ErrorCode.AGENCYCENTER_PARENTUSER_NOTEXISTS);
 			}
 		}
 		UserAgency newUserAgency = UserAgency.createUserAgency(userno, parentUserAgency);
-		lotteryService.modifyTuserinfo(newUserAgency.getUserno(), tuserinfo.getUserno());
+		String channel = parenttuserinfo == null ? "991" : parenttuserinfo.getChannel();
+		lotteryService.modifyTuserinfo(newUserAgency.getUserno(), channel);
 		logger.info("创建代理用户结束");
 		return newUserAgency;
 	}
