@@ -76,7 +76,8 @@ public class AgencyPercent {
 		}
 		EntityManager em = AgencyPercent.entityManager();
 		return em
-				.createQuery("SELECT o FROM AgencyPercent AS o WHERE o.id.userno = :userno order by o.id.lotno asc",
+				.createQuery(
+						"SELECT o FROM AgencyPercent AS o WHERE o.id.userno = :userno order by o.id.lotno asc,o.id.type asc",
 						AgencyPercent.class).setParameter("userno", userno).getResultList();
 	}
 }
