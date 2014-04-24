@@ -10,7 +10,6 @@ privileged aspect AgencyPercentPK_Roo_ToString {
     public String AgencyPercentPK.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Lotno: ").append(getLotno()).append(", ");
-        sb.append("Type: ").append(getType()).append(", ");
         sb.append("Userno: ").append(getUserno());
         return sb.toString();
     }

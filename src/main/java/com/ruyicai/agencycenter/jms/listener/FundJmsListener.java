@@ -47,15 +47,11 @@ public class FundJmsListener {
 			}
 			if (businessType != null) {
 				if (businessType == 1) {// 订单投注
-					agencyService.doAgencyPrize(userno, businessId, businessType, lotno, new BigDecimal(amt), 0);
+					agencyService.doAgencyPrize(userno, businessId, businessType, lotno, new BigDecimal(amt));
 				} else if (businessType == 3) {// 合买投注
 					if (isCaseLotStarter != null) {
-						if (isCaseLotStarter == 1) {
-							agencyService
-									.doAgencyPrize(userno, businessId, businessType, lotno, new BigDecimal(amt), 1);
-						} else if (isCaseLotStarter == 0) {
-							agencyService
-									.doAgencyPrize(userno, businessId, businessType, lotno, new BigDecimal(amt), 2);
+						if (isCaseLotStarter == 1 || isCaseLotStarter == 0) { // 合买发起人  || 合买参与人
+							agencyService.doAgencyPrize(userno, businessId, businessType, lotno, new BigDecimal(amt));
 						} else {
 							logger.error("isCaseLotStarter:" + isCaseLotStarter + " is error");
 						}

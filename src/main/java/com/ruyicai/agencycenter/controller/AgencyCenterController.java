@@ -167,21 +167,19 @@ public class AgencyCenterController {
 	 *            彩种
 	 * @param percent
 	 *            用户比率
-	 * @param type
-	 *            0:普通代购，1:合买发起人,2:合买参与人
 	 * @return
 	 */
 	@RequestMapping(value = "/modifyAgencyPrecent", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseData modifyAgencyPrecent(@RequestParam(value = "userno") String userno,
 			@RequestParam(value = "parentUserno") String parentUserno, @RequestParam(value = "lotno") String lotno,
-			@RequestParam(value = "percent") BigDecimal percent, @RequestParam(value = "type") Integer type) {
+			@RequestParam(value = "percent") BigDecimal percent) {
 		logger.info("/modifyAgencyPrecent,userno:{},parentUserno:{},lotno:{},percent:{}", new String[] { userno,
 				parentUserno, lotno, percent + "" });
 		ResponseData rd = new ResponseData();
 		ErrorCode result = ErrorCode.OK;
 		try {
-			rd.setValue(agencyService.modifyAgencyPercent(userno, parentUserno, lotno, percent, type));
+			rd.setValue(agencyService.modifyAgencyPercent(userno, parentUserno, lotno, percent));
 		} catch (RuyicaiException e) {
 			logger.error("修改用户代理比率异常,{}", new String[] { e.getMessage() }, e);
 			rd.setValue(e.getMessage());
@@ -203,20 +201,19 @@ public class AgencyCenterController {
 	 * @param lotno
 	 *            彩种
 	 * @param percent
-	 *            用户比率 * @param type 0:普通代购，1:合买发起人,2:合买参与人
+	 *            用户比率
 	 * @return
 	 */
 	@RequestMapping(value = "/modifyAgencyPrecentNotValidate", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseData modifyAgencyPrecentNotValidate(@RequestParam(value = "userno") String userno,
-			@RequestParam(value = "lotno") String lotno, @RequestParam(value = "percent") BigDecimal percent,
-			@RequestParam(value = "type") Integer type) {
+			@RequestParam(value = "lotno") String lotno, @RequestParam(value = "percent") BigDecimal percent) {
 		logger.info("/modifyAgencyPrecentNotValidate,userno:{},lotno:{},percent:{}", new String[] { userno, lotno,
 				percent + "" });
 		ResponseData rd = new ResponseData();
 		ErrorCode result = ErrorCode.OK;
 		try {
-			rd.setValue(agencyService.modifyAgencyPrecentNotValidate(userno, lotno, percent, type));
+			rd.setValue(agencyService.modifyAgencyPrecentNotValidate(userno, lotno, percent));
 		} catch (RuyicaiException e) {
 			logger.error("修改用户代理比率异常,{}", new String[] { e.getMessage() }, e);
 			rd.setValue(e.getMessage());
