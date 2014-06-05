@@ -2,11 +2,10 @@ package com.ruyicai.agencycenter.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.EntityManager;
+import javax.persistence.Id;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.roo.addon.entity.RooEntity;
@@ -21,8 +20,9 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooEntity(versionField = "", table = "AGENCYPERCENT", identifierField = "id")
 public class AgencyPercent {
 
-	@EmbeddedId
-	private AgencyPercentPK id;
+	@Id
+	@Column(name = "USERNO", length = 32)
+	private String userno;
 
 	@Column(name = "PERCENT")
 	private BigDecimal percent;
@@ -35,22 +35,16 @@ public class AgencyPercent {
 	 * 
 	 * @param userno
 	 *            用户编号
-	 * @param lotno
-	 *            彩种编号
 	 * @return AgencyPercent
 	 */
-	public static AgencyPercent findOrCreateAgencyPercent(String userno, String lotno) {
+	public static AgencyPercent findOrCreateAgencyPercent(String userno) {
 		if (StringUtils.isBlank(userno)) {
 			throw new IllegalArgumentException("the arguments userno is require");
 		}
-		if (StringUtils.isBlank(lotno)) {
-			throw new IllegalArgumentException("the arguments lotno is require");
-		}
-		AgencyPercentPK id = new AgencyPercentPK(userno, lotno);
-		AgencyPercent agencyPercent = findAgencyPercent(id);
+		AgencyPercent agencyPercent = findAgencyPercent(userno);
 		if (agencyPercent == null) {
 			agencyPercent = new AgencyPercent();
-			agencyPercent.setId(id);
+			agencyPercent.setUserno(userno);
 			agencyPercent.setPercent(BigDecimal.ZERO);
 			agencyPercent.setLastmodifyTime(new Date());
 			agencyPercent.persist();
@@ -63,18 +57,16 @@ public class AgencyPercent {
 	 * 
 	 * @param userno
 	 *            用户编号
-	 * @param lotno
-	 *            彩种编号
 	 * @return AgencyPercent
 	 */
-	public static List<AgencyPercent> findAgencyPercentsByUserno(String userno) {
+	public static AgencyPercent findAgencyPercentsByUserno(String userno) {
 		if (StringUtils.isBlank(userno)) {
 			throw new IllegalArgumentException("the arguments userno is require");
 		}
 		EntityManager em = AgencyPercent.entityManager();
 		return em
 				.createQuery(
-						"SELECT o FROM AgencyPercent AS o WHERE o.id.userno = :userno order by o.id.lotno asc",
-						AgencyPercent.class).setParameter("userno", userno).getResultList();
+						"SELECT o FROM AgencyPercent AS o WHERE o.userno = :userno ",
+						AgencyPercent.class).setParameter("userno", userno).getResultList().get(0);
 	}
 }

@@ -31,10 +31,6 @@ public class AgencyBuyDetail {
 	@Column(name = "BUSINESSTYPE")
 	private Integer businessType;
 
-	/** 彩种 */
-	@Column(name = "LOTNO", length = 20)
-	private String lotno;
-
 	/** 购买金额 */
 	@Column(name = "BUYAMT", columnDefinition = "decimal")
 	private BigDecimal buyAmt;
@@ -48,12 +44,11 @@ public class AgencyBuyDetail {
 	private Date createTime;
 
 	public static AgencyBuyDetail createAgencyBuyDetail(String userno, String businessId, Integer businessType,
-			String lotno, BigDecimal buyAmt, BigDecimal percent) {
+			BigDecimal buyAmt, BigDecimal percent) {
 		AgencyBuyDetail agencyBuyDetail = new AgencyBuyDetail();
 		agencyBuyDetail.setUserno(userno);
 		agencyBuyDetail.setBusinessId(businessId);
 		agencyBuyDetail.setBusinessType(businessType);
-		agencyBuyDetail.setLotno(lotno);
 		agencyBuyDetail.setBuyAmt(buyAmt);
 		agencyBuyDetail.setPercent(percent);
 		agencyBuyDetail.setCreateTime(new Date());

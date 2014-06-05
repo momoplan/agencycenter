@@ -735,7 +735,7 @@
 				<camel.jmxAgent.registryPort>2099</camel.jmxAgent.registryPort>
 				<memcache.client.ip>192.168.0.92:12000</memcache.client.ip>
 				<lotteryurl>http://192.168.0.42:8080/lottery</lotteryurl>
-				<msgcenterurl>http://192.168.0.118/msgcenter</msgcenterurl>
+				<msgcenterurl>http://192.168.0.118:8000/msgcenter</msgcenterurl>
 			</properties>
 		</profile>
 		<profile>

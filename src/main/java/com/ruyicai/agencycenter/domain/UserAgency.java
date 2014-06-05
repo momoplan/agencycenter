@@ -110,4 +110,17 @@ public class UserAgency {
 		total.setParameter("userno", userno);
 		return total.getSingleResult().intValue();
 	}
+	
+	/**
+	 * 查询代理用户是否存在
+	 * @param parentUserno
+	 * @return
+	 */
+	public static Integer findUserAgencyCount(String userno) {
+		EntityManager em = UserAgency.entityManager();
+		String countSql = "SELECT count(*) FROM UserAgency o WHERE o.userno = :userno";
+		TypedQuery<Long> total = em.createQuery(countSql, Long.class);
+		total.setParameter("userno", userno);
+		return total.getSingleResult().intValue();
+	}
 }

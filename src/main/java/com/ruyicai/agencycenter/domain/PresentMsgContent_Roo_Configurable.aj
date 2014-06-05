@@ -3,10 +3,10 @@
 
 package com.ruyicai.agencycenter.domain;
 
-import java.io.Serializable;
+import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect AgencyPercentPK_Roo_Serializable {
+privileged aspect PresentMsgContent_Roo_Configurable {
     
-    declare parents: AgencyPercentPK implements Serializable;
+    declare @type: PresentMsgContent: @Configurable;
     
 }

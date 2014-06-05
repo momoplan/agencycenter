@@ -5,8 +5,8 @@ package com.ruyicai.agencycenter.domain;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect AgencyPercentPK_Roo_Configurable {
+privileged aspect TlotctrlPK_Roo_Configurable {
     
-    declare @type: AgencyPercentPK: @Configurable;
+    declare @type: TlotctrlPK: @Configurable;
     
 }

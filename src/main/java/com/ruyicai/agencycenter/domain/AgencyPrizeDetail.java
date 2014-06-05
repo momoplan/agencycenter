@@ -47,10 +47,6 @@ public class AgencyPrizeDetail {
 	@Column(name = "BUSINESSTYPE")
 	private Integer businessType;
 
-	/** 彩种 */
-	@Column(name = "LOTNO", length = 20)
-	private String lotno;
-
 	/** 奖金 */
 	@Column(name = "PRIZEAMT", columnDefinition = "decimal")
 	private BigDecimal prizeAmt;
@@ -69,7 +65,7 @@ public class AgencyPrizeDetail {
 
 	@Transactional
 	public static AgencyPrizeDetail createAgencyPrizeDetail(String userno, String childUserno, String businessId,
-			Integer businessType, String lotno, BigDecimal prizeAmt, BigDecimal totalAmt) {
+			Integer businessType,BigDecimal prizeAmt, BigDecimal totalAmt) {
 		if (StringUtils.isBlank(userno)) {
 			throw new IllegalArgumentException("the argument parentAgentUserno is required");
 		}
@@ -87,7 +83,6 @@ public class AgencyPrizeDetail {
 		agencyPrizeDetail.setChildUserno(childUserno);
 		agencyPrizeDetail.setBusinessId(businessId);
 		agencyPrizeDetail.setBusinessType(businessType);
-		agencyPrizeDetail.setLotno(lotno);
 		agencyPrizeDetail.setPrizeAmt(prizeAmt);
 		agencyPrizeDetail.setTotalAmt(totalAmt);
 		agencyPrizeDetail.setCreateTime(new Date());

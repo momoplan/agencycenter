@@ -28,6 +28,10 @@ public class RoutesConfiguration {
 						"bean:sendAgencyPrizeListener?method=sendAgencyPrizeCustomer").routeId("发放代理奖金");
 				from("jms:queue:VirtualTopicConsumers.agencycenter.actioncenter?concurrentConsumers=20").to(
 						"bean:fundJmsListener?method=fundJmsCustomer").routeId("代理购彩");
+				from("jms:queue:VirtualTopicConsumers.agencycenter.sendAgencyCouponToBinding").to(
+						"bean:agencyByCouponToBindingListener?method=agencyByCouponToBindingCustomer").routeId("赠送兑换券代理");
+				from("jms:queue:VirtualTopicConsumers.agencycenter.userModify").to(
+						"bean:agencyByUserModifyListener?method=agencyByUserModifyCustomer").routeId("用户信息修改");
 			}
 		});
 	}

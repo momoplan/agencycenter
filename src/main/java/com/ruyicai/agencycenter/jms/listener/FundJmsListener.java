@@ -30,11 +30,45 @@ public class FundJmsListener {
 	 */
 	public void fundJmsCustomer(@Header("USERNO") String userno, @Header("AMT") Long amt, @Header("TYPE") Integer type,
 			@Header("LOTNO") String lotno, @Header("BUSINESSID") String businessId,
-			@Header("BUSINESSTYPE") Integer businessType, @Header("ISCASELOTSTARTER") Integer isCaseLotStarter) {
+			@Header("BUSINESSTYPE") Integer businessType, @Header("ISCASELOTSTARTER") Integer isCaseLotStarter,
+			@Header("TTRANSACTIONID") String ttransactionId) {
 		// 如果是购彩，则计算代理金额
-		if (type == 2) {
-			logger.info("userno:{},amt:{},type:{},lotno:{},businessId:{},businessType:{},isCaseLotStarter:{}",
-					new String[] { userno, amt + "", type + "", lotno, businessId, businessType + "",
+//		if (type == 2) {
+//			logger.info("userno:{},amt:{},type:{},lotno:{},businessId:{},businessType:{},isCaseLotStarter:{}",
+//					new String[] { userno, amt + "", type + "", lotno, businessId, businessType + "",
+//							isCaseLotStarter + "" });
+//			if (StringUtils.isBlank(userno)) {
+//				return;
+//			}
+//			if (amt <= 0) {
+//				return;
+//			}
+//			if (StringUtils.isBlank(businessId)) {
+//				return;
+//			}
+//			if (businessType != null) {
+//				if (businessType == 1) {// 订单投注
+//					agencyService.doAgencyPrize(userno, businessId, businessType, lotno, new BigDecimal(amt));
+//				} else if (businessType == 3) {// 合买投注
+//					if (isCaseLotStarter != null) {
+//						if (isCaseLotStarter == 1 || isCaseLotStarter == 0) { // 合买发起人  || 合买参与人
+//							agencyService.doAgencyPrize(userno, businessId, businessType, lotno, new BigDecimal(amt));
+//						} else {
+//							logger.error("isCaseLotStarter:" + isCaseLotStarter + " is error");
+//						}
+//					} else {
+//						logger.error("isCaseLotStarter is null");
+//					}
+//				} else {
+//					logger.error("businessType:" + businessType + " is error");
+//				}
+//			} else {
+//				logger.error("businessId is null");
+//			}
+//		}
+		if(type == 1){	//充值
+			logger.info("userno:{},amt:{},type:{},lotno:{},ttransactionId:{},businessType:{},isCaseLotStarter:{}",
+					new String[] { userno, amt + "", type + "", lotno, ttransactionId, businessType + "",
 							isCaseLotStarter + "" });
 			if (StringUtils.isBlank(userno)) {
 				return;
@@ -42,30 +76,14 @@ public class FundJmsListener {
 			if (amt <= 0) {
 				return;
 			}
-			if (StringUtils.isBlank(businessId)) {
+			if (StringUtils.isBlank(ttransactionId)) {
 				return;
 			}
-			if (businessType != null) {
-				if (businessType == 1) {// 订单投注
-					agencyService.doAgencyPrize(userno, businessId, businessType, lotno, new BigDecimal(amt));
-				} else if (businessType == 3) {// 合买投注
-					if (isCaseLotStarter != null) {
-						if (isCaseLotStarter == 1 || isCaseLotStarter == 0) { // 合买发起人  || 合买参与人
-							agencyService.doAgencyPrize(userno, businessId, businessType, lotno, new BigDecimal(amt));
-						} else {
-							logger.error("isCaseLotStarter:" + isCaseLotStarter + " is error");
-						}
-					} else {
-						logger.error("isCaseLotStarter is null");
-					}
-				} else {
-					logger.error("businessType:" + businessType + " is error");
-				}
-			} else {
-				logger.error("businessId is null");
+			if (businessType == null) {
+				businessType = 0;	//充值默认0
 			}
+			agencyService.doAgencyPrize(userno, ttransactionId, businessType,new BigDecimal(amt));
 		}
-
 	}
 
 }

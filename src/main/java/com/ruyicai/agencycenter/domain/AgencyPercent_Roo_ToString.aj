@@ -9,9 +9,9 @@ privileged aspect AgencyPercent_Roo_ToString {
     
     public String AgencyPercent.toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Id: ").append(getId()).append(", ");
         sb.append("LastmodifyTime: ").append(getLastmodifyTime()).append(", ");
-        sb.append("Percent: ").append(getPercent());
+        sb.append("Percent: ").append(getPercent()).append(", ");
+        sb.append("Userno: ").append(getUserno());
         return sb.toString();
     }
     

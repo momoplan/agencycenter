@@ -14,7 +14,6 @@ privileged aspect AgencyBuyDetail_Roo_ToString {
         sb.append("BuyAmt: ").append(getBuyAmt()).append(", ");
         sb.append("CreateTime: ").append(getCreateTime()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
-        sb.append("Lotno: ").append(getLotno()).append(", ");
         sb.append("Percent: ").append(getPercent()).append(", ");
         sb.append("Userno: ").append(getUserno());
         return sb.toString();

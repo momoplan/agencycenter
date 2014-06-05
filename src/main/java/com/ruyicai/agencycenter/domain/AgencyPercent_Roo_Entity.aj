@@ -4,7 +4,7 @@
 package com.ruyicai.agencycenter.domain;
 
 import com.ruyicai.agencycenter.domain.AgencyPercent;
-import com.ruyicai.agencycenter.domain.AgencyPercentPK;
+import java.lang.String;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -33,7 +33,7 @@ privileged aspect AgencyPercent_Roo_Entity {
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            AgencyPercent attached = AgencyPercent.findAgencyPercent(this.id);
+            AgencyPercent attached = AgencyPercent.findAgencyPercent(this.userno);
             this.entityManager.remove(attached);
         }
     }
@@ -72,9 +72,9 @@ privileged aspect AgencyPercent_Roo_Entity {
         return entityManager().createQuery("SELECT o FROM AgencyPercent o", AgencyPercent.class).getResultList();
     }
     
-    public static AgencyPercent AgencyPercent.findAgencyPercent(AgencyPercentPK id) {
-        if (id == null) return null;
-        return entityManager().find(AgencyPercent.class, id);
+    public static AgencyPercent AgencyPercent.findAgencyPercent(String userno) {
+        if (userno == null || userno.length() == 0) return null;
+        return entityManager().find(AgencyPercent.class, userno);
     }
     
     public static List<AgencyPercent> AgencyPercent.findAgencyPercentEntries(int firstResult, int maxResults) {

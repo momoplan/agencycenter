@@ -3,18 +3,18 @@
 
 package com.ruyicai.agencycenter.domain;
 
-import com.ruyicai.agencycenter.domain.AgencyPercentPK;
+import java.lang.String;
 import java.math.BigDecimal;
 import java.util.Date;
 
 privileged aspect AgencyPercent_Roo_JavaBean {
     
-    public AgencyPercentPK AgencyPercent.getId() {
-        return this.id;
+    public String AgencyPercent.getUserno() {
+        return this.userno;
     }
     
-    public void AgencyPercent.setId(AgencyPercentPK id) {
-        this.id = id;
+    public void AgencyPercent.setUserno(String userno) {
+        this.userno = userno;
     }
     
     public BigDecimal AgencyPercent.getPercent() {

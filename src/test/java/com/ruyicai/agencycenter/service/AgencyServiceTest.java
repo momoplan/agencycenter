@@ -16,7 +16,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import com.ruyicai.agencycenter.domain.AgencyPercent;
-import com.ruyicai.agencycenter.domain.AgencyPercentPK;
 import com.ruyicai.agencycenter.domain.UserAgency;
 import com.ruyicai.agencycenter.util.Lottype;
 
@@ -56,13 +55,13 @@ public class AgencyServiceTest {
 	public void testSetPercent() {
 		Map<String, String> map = Lottype.getMap();
 		for (String lotno : map.keySet()) {
-			AgencyPercent agencyPercent = AgencyPercent.findAgencyPercent(new AgencyPercentPK("00000042", lotno));
+			AgencyPercent agencyPercent = AgencyPercent.findAgencyPercent("00000042");
 			agencyPercent.setPercent(new BigDecimal(8));
 			agencyPercent.merge();
-			AgencyPercent agencyPercent2 = AgencyPercent.findAgencyPercent(new AgencyPercentPK("00000036", lotno));
+			AgencyPercent agencyPercent2 = AgencyPercent.findAgencyPercent("00000042");
 			agencyPercent2.setPercent(new BigDecimal(6));
 			agencyPercent2.merge();
-			AgencyPercent agencyPercent3 = AgencyPercent.findAgencyPercent(new AgencyPercentPK("00000196", lotno));
+			AgencyPercent agencyPercent3 = AgencyPercent.findAgencyPercent("00000042");
 			agencyPercent3.setPercent(new BigDecimal(5));
 			agencyPercent3.merge();
 		}
@@ -70,7 +69,7 @@ public class AgencyServiceTest {
 
 	@Test
 	public void testDoAgencyPrize() throws InterruptedException {
-		agencyService.doAgencyPrize("00000033", new Date().getTime() + "", 1, "F47104", new BigDecimal(10000));
+		agencyService.doAgencyPrize("00000033", new Date().getTime() + "", 1, new BigDecimal(10000));
 		Thread.sleep(5 * 1000);
 	}
 

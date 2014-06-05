@@ -14,7 +14,6 @@ privileged aspect AgencyPrizeDetail_Roo_ToString {
         sb.append("ChildUserno: ").append(getChildUserno()).append(", ");
         sb.append("CreateTime: ").append(getCreateTime()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
-        sb.append("Lotno: ").append(getLotno()).append(", ");
         sb.append("PrizeAmt: ").append(getPrizeAmt()).append(", ");
         sb.append("State: ").append(getState()).append(", ");
         sb.append("TotalAmt: ").append(getTotalAmt()).append(", ");

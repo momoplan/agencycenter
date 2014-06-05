@@ -34,14 +34,6 @@ privileged aspect AgencyBuyDetail_Roo_JavaBean {
         this.businessType = businessType;
     }
     
-    public String AgencyBuyDetail.getLotno() {
-        return this.lotno;
-    }
-    
-    public void AgencyBuyDetail.setLotno(String lotno) {
-        this.lotno = lotno;
-    }
-    
     public BigDecimal AgencyBuyDetail.getBuyAmt() {
         return this.buyAmt;
     }
