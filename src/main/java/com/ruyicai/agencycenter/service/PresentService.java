@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ruyicai.agencycenter.consts.BetType;
+import com.ruyicai.agencycenter.consts.Lottype;
 import com.ruyicai.agencycenter.domain.OrderRequest;
 import com.ruyicai.agencycenter.domain.PresentMsgContent;
 import com.ruyicai.agencycenter.domain.UserAgency;
@@ -45,7 +46,6 @@ public class PresentService {
 	public void savePresentMsgContent(OrderRequest orderRequest) {
 		logger.info("创建代理赠送彩票内容开始");
 		Tuserinfo reciverUserinfo = null ;
-//		PresentMsgContent presentMsgContent = null;
 		reciverUserinfo = findByUserName(orderRequest.getReciverMobile());
 		if (reciverUserinfo == null || StringUtils.isBlank(reciverUserinfo.getUserno())) {
 			//create newUser 
@@ -98,7 +98,7 @@ public class PresentService {
 			throw new RuyicaiException(ErrorCode.UserReg_UserExists);
 		}
 		//发送短信
-		sendMessage(orderRequest.getBuyuserno(),orderRequest.getReciverMobile());
+		sendMessage(orderRequest.getBuyuserno(),orderRequest.getReciverMobile(),orderRequest.getLotno());
 		logger.info("创建代理赠送彩票内容结束,赠送人userno:{},被赠送人username:{}", new String[] { orderRequest.getBuyuserno(),orderRequest.getReciverMobile() });
 	}
 	
@@ -122,9 +122,11 @@ public class PresentService {
 		return userinfo;
 	}
 	
-	public void sendMessage(String userno,String mobileId){
+	public void sendMessage(String userno,String mobileId,String lotno){
+		String caizhong = Lottype.getMap().get(lotno);
 		Tuserinfo userinfo = lotteryService.findTuserinfoByUserno(userno);
-		String text = "尊敬的用户：您的好友"+userinfo.getMobileid()+"送您彩票了，请登陆 http://t.cn/8DDiVXw? 注册如意彩！找回密码后登陆查看,24小时客服 4006651000";
+		String text = "【赠彩通知】您的好友"+userinfo.getMobileid()+"赠送您一笔"+caizhong+"彩票，请您使用账号["+mobileId+"]登录 http://t.cn/8DDiVXw? 找回密码后登录查看,24小时客服 4006651000";
+//		String text = "【赠彩通知】您的好友"+userinfo.getMobileid()+"赠送您一笔"+caizhong+"彩票，请您使用账号["+mobileId+"]登录 http://users.ruyicai.com:5507/rchlw/function/rules/findPwd_new.jsp? 找回密码后登录查看,24小时客服 4006651000";
 		logger.info("send agencycenter message start time : " + System.nanoTime());
 		if(StringUtils.isNotBlank(mobileId)) {
 			try {

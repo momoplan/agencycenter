@@ -66,11 +66,11 @@ privileged aspect PresentMsgContent_Roo_JavaBean {
         this.amt = amt;
     }
     
-    public BigDecimal PresentMsgContent.getEveryAmt() {
+    public String PresentMsgContent.getEveryAmt() {
         return this.everyAmt;
     }
     
-    public void PresentMsgContent.setEveryAmt(BigDecimal everyAmt) {
+    public void PresentMsgContent.setEveryAmt(String everyAmt) {
         this.everyAmt = everyAmt;
     }
     

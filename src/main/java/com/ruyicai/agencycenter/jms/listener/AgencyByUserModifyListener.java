@@ -1,5 +1,6 @@
 package com.ruyicai.agencycenter.jms.listener;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +51,8 @@ public class AgencyByUserModifyListener {
 			if(resultList!=null){
 				for(PresentMsgContent msgcontent : resultList){
 					orderRequest = convertObj(msgcontent);
-					logger.info("=============Batchcode==============="+orderRequest.getBatchcode());
 					String bodyparam = JsonUtil.toJson(orderRequest);
+					logger.info("======bodyparam======="+bodyparam);
 					try {
 						String result = HttpUtil.post(lotteryurl +"/present/savepresent","body="+bodyparam);
 						logger.info("=========result============"+result);
@@ -78,11 +79,15 @@ public class AgencyByUserModifyListener {
 		orderRequest.setUserno(content.getReciverUserno());
 		orderRequest.setBatchcode(currentBatchcode(content.getLotno()));
 		orderRequest.setLotno(content.getLotno());
-		BetRequest betRequest = new BetRequest();
-		betRequest.setBetcode(content.getContent());
-		betRequest.setAmt(content.getEveryAmt());
 		List<BetRequest> list = new ArrayList<BetRequest>();
-		list.add(betRequest);
+		String[] contentArr = content.getContent().split(";");
+		String[] everyAmtArr = content.getEveryAmt().split(";");
+		for(int i=0;i<contentArr.length;i++){
+			BetRequest betRequest = new BetRequest();
+			betRequest.setBetcode(contentArr[i]);
+			betRequest.setAmt(new BigDecimal(everyAmtArr[i]));
+			list.add(betRequest);
+		}
 		orderRequest.setBetRequests(list);
 		orderRequest.setAmt(content.getAmt());
 		orderRequest.setLotmulti(content.getLotmulti());

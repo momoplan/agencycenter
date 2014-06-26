@@ -55,7 +55,7 @@ public class PresentMsgContent {
 	
 	/** 每个彩票金额*/
 	@Column(name = "EVERYAMT")
-	private BigDecimal everyAmt;
+	private String everyAmt;
 
 	/** 创建时间 */
 	@Column(name = "CREATETIME")
@@ -86,22 +86,26 @@ public class PresentMsgContent {
 	 */
 	public static void createPresentMsgContent(OrderRequest orderRequest) {
 		List<BetRequest> betRequests = orderRequest.betRequests;
-		for(BetRequest bet : betRequests){
-			PresentMsgContent content = new PresentMsgContent();
-			content.setBuyUserno(orderRequest.getBuyuserno());
-			content.setReciverUserno(orderRequest.getUserno());
-			content.setLotno(orderRequest.getLotno());
-			content.setContent(orderRequest.getBetRequests().get(0).getBetcode());
-			content.setAmt(orderRequest.getAmt());
-			content.setEveryAmt(bet.getAmt());
-			content.setReciverMobile(orderRequest.getReciverMobile());
-			content.setBetype(orderRequest.getBettype());
-			content.setLotmulti(orderRequest.getLotmulti());
-			content.setBlessing(orderRequest.getBlessing());
-			content.setCreateTime(new Date());
-			content.setState(0);
-			content.persist();
+		String every_amt = "";
+		String every_content = "";
+		for(int i=0;i<betRequests.size();i++){
+			every_amt += betRequests.get(i).getAmt().toString().concat(";");
+			every_content += orderRequest.getBetRequests().get(i).getBetcode().concat(";");
 		}
+		PresentMsgContent content = new PresentMsgContent();
+		content.setBuyUserno(orderRequest.getBuyuserno());
+		content.setReciverUserno(orderRequest.getUserno());
+		content.setLotno(orderRequest.getLotno());
+		content.setContent(every_content.substring(0, every_content.length()-1));
+		content.setAmt(orderRequest.getAmt());
+		content.setEveryAmt(every_amt.substring(0, every_amt.length()-1));
+		content.setReciverMobile(orderRequest.getReciverMobile());
+		content.setBetype(orderRequest.getBettype());
+		content.setLotmulti(orderRequest.getLotmulti());
+		content.setBlessing(orderRequest.getBlessing());
+		content.setCreateTime(new Date());
+		content.setState(0);
+		content.persist();
 	}
 	
 	public static List<PresentMsgContent> isValid(String userno){
