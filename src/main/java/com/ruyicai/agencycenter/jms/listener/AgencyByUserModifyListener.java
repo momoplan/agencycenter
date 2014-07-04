@@ -60,6 +60,8 @@ public class AgencyByUserModifyListener {
 						String errorCode = jsonObject.getString("errorCode");
 						if (errorCode.equals(ErrorCode.OK.value)) {
 							PresentMsgContent.updateState(msgcontent.getId());
+						}else{
+							logger.info("=========presentresult====赠送失败===errorCode:====="+errorCode);
 						}
 					} catch (Exception e) {
 						logger.error("请求" + lotteryurl+ "/present/savepresent?body="+bodyparam+"失败", e.getMessage());

@@ -125,8 +125,9 @@ public class PresentService {
 	public void sendMessage(String userno,String mobileId,String lotno){
 		String caizhong = Lottype.getMap().get(lotno);
 		Tuserinfo userinfo = lotteryService.findTuserinfoByUserno(userno);
-		String text = "【赠彩通知】您的好友"+userinfo.getMobileid()+"赠送您一笔"+caizhong+"彩票，请您使用账号["+mobileId+"]登录 http://t.cn/8DDiVXw? 找回密码后登录查看,24小时客服 4006651000";
-//		String text = "【赠彩通知】您的好友"+userinfo.getMobileid()+"赠送您一笔"+caizhong+"彩票，请您使用账号["+mobileId+"]登录 http://users.ruyicai.com:5507/rchlw/function/rules/findPwd_new.jsp? 找回密码后登录查看,24小时客服 4006651000";
+		String friendMobile = userinfo.getMobileid()==null?userinfo.getUserName():userinfo.getMobileid();
+		String text = "【赠彩通知】您的好友"+friendMobile+"赠送您一笔"+caizhong+"彩票，请您使用账号["+mobileId+"]登录 http://t.cn/8DDiVXw? 找回密码后登录查看,24小时客服 4006651000";
+//		String text = "【赠彩通知】您的好友"+friendMobile+"赠送您一笔"+caizhong+"彩票，请您使用账号["+mobileId+"]登录 http://users.ruyicai.com:5507/rchlw/function/rules/findPwd_new.jsp? 找回密码后登录查看,24小时客服 4006651000";
 		logger.info("send agencycenter message start time : " + System.nanoTime());
 		if(StringUtils.isNotBlank(mobileId)) {
 			try {

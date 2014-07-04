@@ -15,22 +15,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
-@ContextConfiguration(locations = { "classpath:/META-INF/spring/applicationContext.xml",
-		"classpath:/META-INF/spring/applicationContext-jms.xml",
-		"classpath:/META-INF/spring/applicationContext-memcache.xml" })
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
+//@ContextConfiguration(locations = { "classpath:/META-INF/spring/applicationContext.xml",
+//		"classpath:/META-INF/spring/applicationContext-jms.xml",
+//		"classpath:/META-INF/spring/applicationContext-memcache.xml" })
 public class AgencyRegisterTest {
 
-	@Test
-	public void excute(){
+//	@Test
+//	public void excute(){
+	public static void main(String args[]){
 		for(int i=1;i<=10;i++){
 			String temp = new DecimalFormat("000").format(i);
-			String param = "userName=1六律测试"+temp
+			String param = "userName=LL"+temp
 					+"&password=123456"+"&state=1"+"&type=0"+"&channel=991";
 			try {
-//				post("http://192.168.99.6/lotteryprize/tuserinfoes/register",param);
-				post("http://192.168.0.42:8080/lottery/tuserinfoes/register",param);
+				post("http://192.168.99.6/lotteryprize/tuserinfoes/register",param);
+//				post("http://192.168.0.42:8080/lottery/tuserinfoes/register",param);
 			} catch (Exception e1) {
 				System.out.println("请求/tuserinfoes/register" + "失败" + e1.getMessage());
 			}
