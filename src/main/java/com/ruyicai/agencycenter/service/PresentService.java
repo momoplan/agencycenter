@@ -75,7 +75,7 @@ public class PresentService {
 			}
 			String buyuserno = orderRequest.getBuyuserno();
 			String userno = orderRequest.getUserno();
-			if (orderRequest.getBettype().equals(BetType.zengsong.value())) {
+			if (BetType.zengsong.value().compareTo(orderRequest.getBettype()) == 0) {
 				Tuserinfo buyTuserinfo = lotteryService.findTuserinfoByUserno(buyuserno);
 				Tuserinfo tuserinfo = lotteryService.findTuserinfoByUserno(userno);
 				if (buyTuserinfo != null && tuserinfo!=null) {
