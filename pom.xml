@@ -67,13 +67,13 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.8.5</version>
 		</dependency>
-		<dependency>
-			<groupId>com.dbluethink</groupId>
-			<artifactId>test</artifactId>
-			<version>0.0.16</version>
-			<type>jar</type>
-			<scope>test</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.dbluethink</groupId> -->
+<!-- 			<artifactId>test</artifactId> -->
+<!-- 			<version>0.0.16</version> -->
+<!-- 			<type>jar</type> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
 		<!-- General dependencies for standard applications -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -397,13 +397,13 @@
 			<version>1.2</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.ruyicai</groupId>
-			<artifactId>simulate</artifactId>
-			<version>0.0.4</version>
-			<type>jar</type>
-			<scope>test</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.ruyicai</groupId> -->
+<!-- 			<artifactId>simulate</artifactId> -->
+<!-- 			<version>0.0.4</version> -->
+<!-- 			<type>jar</type> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-spring</artifactId>
